@@ -10,7 +10,7 @@ const Webapp = express();
 Webapp.use(bodyParser.urlencoded({ extended: true }));
 Webapp.use(bodyParser.json());
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 Webapp.get('/', (req, res) => {
     res.send('Hello World.!')
@@ -24,17 +24,13 @@ const providesMovieName = async (req) => {
     let session = req['body']['session'];
     let context = `${session}/contexts/await-movie-name`;
     
-    if (movieData['']) {
-        responseText = {
-            'fulfillmentText': JSON.stringify(movieData),
-            'outputContexts': [{
-                'name': context,
-                'lifespanCount': 0
-            }]
-        };
-    } else {
-        
-    }
+    responseText = {
+        'fulfillmentText': JSON.stringify(movieData),
+        'outputContexts': [{
+            'name': context,
+            'lifespanCount': 0
+        }]
+    };
 
     return responseText;
 };

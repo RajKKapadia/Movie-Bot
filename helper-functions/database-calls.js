@@ -22,9 +22,9 @@ const getMovieID = async (movieName) => {
         }
 };
 
-const getMovieData = async (movieID) => {
+const getMovieData = async (movieName) => {
     
-    omdbURL = `http://www.omdbapi.com/?t=${movieID}&plot=full&apikey=${API_KEY}`;
+    omdbURL = `http://www.omdbapi.com/?t=${movieName}&plot=full&apikey=${API_KEY}`;
     let response = await rp.get(omdbURL);
     let data = JSON.parse(response);
 
