@@ -24,13 +24,34 @@ const providesMovieName = async (req) => {
     let session = req['body']['session'];
     let context = `${session}/contexts/await-movie-name`;
     
-    responseText = {
-        'fulfillmentText': JSON.stringify(movieData),
-        'outputContexts': [{
-            'name': context,
-            'lifespanCount': 0
-        }]
-    };
+    if (movieData['Response'] === 'True') {
+        responseText = {
+            'fulfillmentText': JSON.stringify(movieData['movieData']),
+            'outputContexts': [{
+                'name': context,
+                'lifespanCount': 0
+            }]
+        };
+    } else {
+        let movieList = await hp.getMovieID(movieName);
+        if (movieList.length > 0) {
+            responseText = {
+                'fulfillmentText': `We found ${movieList[0]} and ${movieList[1]}, write the movie name.`,
+                'outputContexts': [{
+                    'name': context,
+                    'lifespanCount': 0
+                }]
+            };
+        } else {
+            responseText = {
+                'fulfillmentText': `We did not found the movie ${movieName} in our database.`,
+                'outputContexts': [{
+                    'name': context,
+                    'lifespanCount': 0
+                }]
+            };
+        }
+    }
 
     return responseText;
 };

@@ -14,12 +14,12 @@ const getMovieID = async (movieName) => {
     let response = await rp.get(imdbURL);
 
     let data = $('h3 > a', response);
-        console.log(data.length);
-        for (let i = 0; i < data.length; i++) {
-            let element = data[i];
-            console.log('Movie Name --> ', element.lastChild.data);
-            console.log('Movie ID --> ', element.attribs.href.split('/')[2]);
-        }
+    let movieList = []
+    for (let i = 0; i < data.length; i++) {
+        let element = data[i];
+        movieList.push(element.lastChild.data);
+    }
+    return movieList;
 };
 
 const getMovieData = async (movieName) => {
@@ -30,19 +30,23 @@ const getMovieData = async (movieName) => {
 
     if (data['Response'] === 'True') {
         return {
-            'Actors': data['Actors'],
-            'Director': data['Director'],
-            'Genre': data['Genre'],
-            'imdbRating': data['imdbRating'],
-            'imdbVotes': data['imdbVotes'],
-            'Plot': data['Plot'],
-            'Poster': data['Poster'],
-            'Title': data['Title'],
-            'Writer': data['Writer'],
-            'Year': data['Year']
+            'movieData': {
+                'Actors': data['Actors'],
+                'Director': data['Director'],
+                'Genre': data['Genre'],
+                'imdbRating': data['imdbRating'],
+                'imdbVotes': data['imdbVotes'],
+                'Plot': data['Plot'],
+                'Poster': data['Poster'],
+                'Title': data['Title'],
+                'Writer': data['Writer'],
+                'Year': data['Year']
+            },
+            'Response': 'True'
         }
     } else {
         return {
+            'Response': 'False',
             'Error': data['Error']
         }
     }
